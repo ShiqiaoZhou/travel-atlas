@@ -217,6 +217,7 @@ html[lang="en"] .brand h1{font-family:var(--en);font-weight:700;letter-spacing:.
 .c-title{flex:1;min-width:0}
 .c-title h2{margin:0;font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.2;letter-spacing:.04em;text-wrap:balance}
 .c-title .en{margin:2px 0 0;font-family:var(--en);font-style:italic;font-size:14px;color:var(--ink-2)}
+.c-expand{display:none}
 .c-close{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--ink-2);cursor:pointer;display:grid;place-items:center;flex:none;padding:0}
 .c-close:hover{background:var(--chip)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
@@ -280,23 +281,43 @@ html[lang="en"] .brand h1{font-family:var(--en);font-weight:700;letter-spacing:.
 
 @media (max-width:720px){
   .ctl{right:12px;bottom:calc(var(--sheet-height,0px) + 10px);z-index:7}
+  #app.sheet-expanded .ctl{display:none}
   .zgrp{flex-direction:row}
+  .zgrp button{width:44px;height:44px}
   .zgrp button+button{border-top:0;border-left:1px solid var(--line)}
+  .bar{left:12px;right:12px;gap:6px}
   .brand small,.brand svg{display:none}
   .brand{padding:9px 12px}
   .brand h1{font-size:16px;letter-spacing:.04em}
-  .tabs button{padding:7px 11px;font-size:14px}
+  .tabs button{min-height:44px;padding:7px 11px;font-size:14px}
   .tabs .n,.tabs .bi-en-i{display:none}
   .langseg{display:none}
   .langbtn{display:grid}
+  .iconbtn{width:44px;height:44px}
+  .legend summary{min-height:44px}
   .hint{top:auto;left:16px;right:74px;transform:none;bottom:calc(74px + env(safe-area-inset-bottom,0px));white-space:normal;text-align:center;border-radius:14px}
   .lvl{display:none}
-  #card{left:0;right:0;bottom:0;top:auto;width:auto;max-height:54%;border-radius:20px 20px 0 0;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px));border-left:0;border-right:0;border-bottom:0;animation-name:sheetIn}
-  #card::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:-4px auto 10px}
+  #card{left:0;right:0;bottom:0;top:auto;width:auto;box-sizing:border-box;max-height:min(56dvh,calc(100dvh - 130px - env(safe-area-inset-top,0px)));border-radius:20px 20px 0 0;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px));border-left:0;border-right:0;border-bottom:0;animation-name:sheetIn;-webkit-overflow-scrolling:touch;transition:max-height .25s ease}
+  #card.expanded{max-height:calc(100dvh - 80px - env(safe-area-inset-top,0px))}
+  .c-head{position:sticky;top:-14px;z-index:2;margin:-14px -16px 0;padding:24px 16px 10px;background:var(--panel-solid);align-items:center;border-radius:20px 20px 0 0;border-bottom:1px solid var(--line)}
+  .c-head::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:4px;border-radius:2px;background:var(--line)}
+  .c-expand,.c-close{width:44px;height:44px;min-width:44px;min-height:44px}
+  .c-expand{border:1px solid var(--line);border-radius:10px;background:var(--chip);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0}
+  .c-expand svg{width:18px;height:18px;transition:transform .2s}
+  #card.expanded .c-expand svg{transform:rotate(180deg)}
   .c-title h2{font-size:21px}
+  .photo-grid{grid-template-columns:1fr;gap:10px}
+  .photo-tile{display:grid;grid-template-columns:112px minmax(0,1fr);min-height:112px}
+  .photo-tile .photo-stage{height:100%;min-height:112px;aspect-ratio:auto}
+  .photo-tile .photo-caption{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:10px 12px;min-width:0}
+  .photo-tile .photo-caption strong{font-size:14px;max-height:none;-webkit-line-clamp:3;line-clamp:3}
+  .photo-tile .photo-credit{font-size:10.5px;line-height:1.4}
+  .near button{min-height:44px;padding:6px 11px 6px 8px}
+  .ext{min-height:44px;align-items:center}
   @keyframes sheetIn{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
 }
 @media (max-width:480px){.brand{display:none}}
+@media (max-width:360px){.photo-tile{grid-template-columns:98px minmax(0,1fr)}.photo-tile .photo-stage{min-height:104px}.c-head{gap:8px}.c-ic{width:44px;height:44px}.c-ic svg{width:29px;height:29px}.c-title h2{font-size:19px}}
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
@@ -814,7 +835,7 @@ const I18N = {
   keyReal:['实线高亮：真实行政区范围','Solid outline: real administrative area'],
   keyApprox:['虚线高亮：周边示意范围','Dashed outline: approximate area'],
   note:['缩小时只显示代表性目的地，放大后逐级出现更多地点、河流、湖泊、地形与地区名称。','Zoomed out, only headline destinations appear; zoom in to reveal more places, rivers, lakes, terrain and region names.'],
-  zoomIn:['放大','Zoom in'], zoomOut:['缩小','Zoom out'], home:['回到全图','Reset view'], theme:['切换浅色 / 深色主题','Toggle light / dark theme'], close:['关闭详情','Close details'],
+  zoomIn:['放大','Zoom in'], zoomOut:['缩小','Zoom out'], home:['回到全图','Reset view'], theme:['切换浅色 / 深色主题','Toggle light / dark theme'], close:['关闭详情','Close details'], expand:['展开详情','Expand details'], collapse:['收起详情','Collapse details'],
   lvl:['缩放层级','Zoom'], lv1:['概览 · 精选地标','Overview · highlights'], lv2:['城市 · 河流湖泊','Cities · rivers & lakes'], lv3:['细节 · 周边地点','Detail · nearby places'],
   sights:['代表景点','Highlights'], photos:['目的地与景点照片','Destination & attraction photos'], photoLoading:['正在寻找合适的照片…','Finding a suitable photo…'], photoUnavailable:['暂时找不到照片','Photo temporarily unavailable'], photoCount:['张景点照片','attraction photos'], range:['高亮范围','Highlighted area'], near:['附近地点','Nearby'],
   rangeReal:['实线为真实行政区边界（Natural Earth 数据）','Solid line: real administrative boundary (Natural Earth data)'],
@@ -898,11 +919,13 @@ const riverLabelCache = {};
 
 const cv = document.createElement('canvas').getContext('2d');
 function measure(text, font, ls, size){ cv.font = font; return cv.measureText(text).width + (ls ? ls*size*[...text].length : 0); }
-const isMobile = () => W < 720;
+const isMobile = () => W <= 720;
 function updateSheetControls(){
   const height = isMobile() && !card.hidden ? card.getBoundingClientRect().height : 0;
   document.documentElement.style.setProperty('--sheet-height', `${height}px`);
+  schedule();
 }
+new ResizeObserver(updateSheetControls).observe(card);
 const levelOf = k => k >= 3 ? 3 : k >= 1.6 ? 2 : 1;
 const activeId = () => hovered || pinned;
 
@@ -1159,6 +1182,16 @@ function ensureVisible(p){
 card.addEventListener('pointerenter', () => clearTimeout(hoverTimer));
 card.addEventListener('pointerleave', () => { if (hovered) scheduleClear(); });
 card.addEventListener('click', e => {
+  if (e.target.closest('.c-expand')) {
+    const expanded = card.classList.toggle('expanded');
+    $('#app').classList.toggle('sheet-expanded', expanded);
+    const button = card.querySelector('.c-expand');
+    button.setAttribute('aria-expanded', String(expanded));
+    button.setAttribute('aria-label', Lt(expanded ? 'collapse' : 'expand'));
+    if (!expanded && pinned) requestAnimationFrame(() => ensureVisible(PM[pinned]));
+    updateSheetControls();
+    return;
+  }
   const go = e.target.closest('[data-go]');
   if (go) { const q = PM[go.dataset.go]; pinned = q.id; hovered = null; refresh(); flyTo(q); return; }
   if (e.target.closest('.c-close')) { pinned = null; hovered = null; refresh(); }
@@ -1252,10 +1285,11 @@ function photoFigure(query, context, title, icon, hero=false, altText=title){
   </figure>`;
 }
 function renderCard(p){
-  if (!p) { clearTimeout(photoTimer); photoObserver?.disconnect(); photoToken++; card.hidden = true; card.dataset.key = ''; updateSheetControls(); return; }
+  if (!p) { clearTimeout(photoTimer); photoObserver?.disconnect(); photoToken++; card.hidden = true; card.dataset.key = ''; card.dataset.place = ''; card.classList.remove('expanded'); $('#app').classList.remove('sheet-expanded'); updateSheetControls(); return; }
   const isPinned = pinned === p.id;
   const key = `${p.id}|${isPinned}|${LANG}`;
   if (card.dataset.key === key && !card.hidden) return;
+  if (card.dataset.place !== p.id) { card.classList.remove('expanded'); $('#app').classList.remove('sheet-expanded'); card.scrollTop = 0; }
   const E = EN[p.id], ap = !!p.range.a, en = LANG === 'en', bi = LANG === 'bi';
   const pair = (zh, e, cls) => en ? esc(e) : bi ? `${esc(zh)}<span class="${cls}">${esc(e)}</span>` : esc(zh);
   const near = PL.filter(q => q !== p)
@@ -1274,6 +1308,7 @@ function renderCard(p){
     <div class="c-head">
       <div class="c-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${p.icon}"/></svg></div>
       <div class="c-title"><h2 lang="${en ? 'en' : 'zh'}">${esc(en ? p.en : p.zh)}</h2><p class="${en ? 'sub' : 'en'}">${esc(en ? p.zh : p.en)}</p></div>
+      <button class="c-expand" aria-label="${esc(Lt(card.classList.contains('expanded') ? 'collapse' : 'expand'))}" aria-expanded="${card.classList.contains('expanded')}" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 15 7-7 7 7"/></svg></button>
       <button class="c-close" aria-label="${esc(Lt('close'))}"><svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>
     </div>
     <div class="chips">${p.tags.map((t,i) => `<span class="chip">${pair(t, E.tags[i], 'bi-en-i')}</span>`).join('')}<span class="chip ty">${typeName(p.icon)}</span></div>
@@ -1292,7 +1327,7 @@ function renderCard(p){
       `<button data-go="${q.id}" style="--ic:${IC[q.icon][0]}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${q.icon}"/></svg>${esc(en ? q.en : q.zh)}${bi ? `<span class="nen">${esc(q.en)}</span>` : ''}<small>${Math.round(d/5)*5 || 5} km</small></button>`).join('')}</div></div>
     <div class="links">${en ? wikiEn : bi ? wikiZh + wikiEn : wikiZh}</div>
     <p class="pinhint"><i></i>${L(isPinned ? 'pinned' : 'preview')}</p>`;
-  card.dataset.key = key; card.dataset.pinned = String(isPinned);
+  card.dataset.key = key; card.dataset.place = p.id; card.dataset.pinned = String(isPinned);
   card.hidden = false;
   updateSheetControls();
   requestCardPhotos(p, key);
