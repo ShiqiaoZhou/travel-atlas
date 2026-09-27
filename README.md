@@ -11,7 +11,7 @@ An interactive bilingual travel atlas for exploring places across Great Britain 
 - Each place has its own icon, an interactive highlighted area, and a bilingual mini-guide.
 - Destination cards include one cover photo and one photo for each featured attraction. Photos load as needed and link to their Wikimedia Commons source with available author and license details.
 - Searchable-feeling exploration through hover, click-to-pin, nearby-place links, and keyboard-accessible markers.
-- Chinese, English, and bilingual display, with responsive controls for smaller screens.
+- Chinese, English, and bilingual display, with touch-friendly controls and an expandable place guide on phones. Attraction photos use readable full-width rows in the mobile guide.
 
 ## New UK city guides
 
