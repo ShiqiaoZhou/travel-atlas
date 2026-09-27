@@ -13,16 +13,19 @@ An interactive bilingual travel atlas for exploring places across Great Britain 
 - Searchable-feeling exploration through hover, click-to-pin, nearby-place links, and keyboard-accessible markers.
 - Chinese, English, and bilingual display, with touch-friendly controls and an expandable place guide on phones. Attraction photos use readable full-width rows in the mobile guide.
 
-## New UK city guides
+## 64 new destinations
 
-The latest update adds six destinations, bringing the UK map to 35 places:
+The latest update adds 32 places in each country, bringing the atlas to **67 places in the UK and 60 in France**. Most appear as you zoom in, so the overview stays uncluttered.
 
-- **Bristol** — Clifton Suspension Bridge, the Harbourside, and SS Great Britain.
-- **Durham** — the cathedral, castle, and River Wear loop.
-- **Norwich** — the cathedral, Norman castle, and Elm Hill.
-- **Chester** — the Roman walls, Tudor Rows, and cathedral.
-- **Canterbury** — the cathedral, St Augustine’s Abbey, and River Stour.
-- **Salisbury** — its soaring cathedral, Magna Carta, and Old Sarum.
+- **England** — Peak District, Yorkshire Dales, Whitby, Castle Howard, Newcastle, Alnwick, Lindisfarne, Lincoln, Winchester, Portsmouth, New Forest, Isle of Wight, Rye, Warwick, Blenheim Palace, St Michael's Mount, Tintagel, Eden Project, Wells, and Ironbridge Gorge.
+- **Scotland** — Glen Coe, Oban, Stirling, St Andrews, Glenfinnan, the Cairngorms, Orkney, and Eilean Donan.
+- **Wales & Northern Ireland** — Pembrokeshire Coast, Brecon Beacons, Caernarfon, and Derry.
+- **Northern France** — Fontainebleau, Chantilly, Honfleur, Rouen, Amiens, Chartres, Épernay, Nancy, and Haut-Kœnigsbourg.
+- **Western France** — Nantes, the Pink Granite Coast, Quimper, La Rochelle, Cognac, Dune du Pilat, and Sarlat.
+- **Central France & Burgundy** — Dijon, Beaune, Vézelay, Puy de Dôme, Le Puy-en-Velay, and Rocamadour.
+- **Southern France** — Albi, Millau Viaduct, Montpellier, Collioure, Arles, the Camargue, Gordes, Aix-en-Provence, Cannes, and Saint-Tropez.
+
+The map also now opens on iPhone and Safari: the background grid is limited to Western Europe, which fixes a freeze in WebKit.
 
 ## Built with
 
