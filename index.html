@@ -6,7 +6,9 @@
 <title>英法行旅地图</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+<!-- Load web fonts without blocking first paint; where Google Fonts is unreachable the page renders with system fonts. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
 <style>
 :root{
   --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
@@ -863,7 +865,9 @@ const MESH = {
 };
 const RIVERS = topojson.feature(TOPO, O.rivers).features;
 const LAKES = topojson.feature(TOPO, O.lakes).features;
-const GRAT = d3.geoGraticule().step([2,2])();
+// Keep the graticule near Western Europe: a whole-globe grid projects to enormous
+// dashed paths under the conic projection, which freezes Safari/WebKit (all iPhone browsers).
+const GRAT = d3.geoGraticule().extent([[-40, 25], [45, 75]]).step([2,2])();
 
 function ringPoly(pts){
   const ring = pts.concat([pts[0]]);
@@ -1391,9 +1395,15 @@ let rsz = 0;
 new ResizeObserver(() => { clearTimeout(rsz); rsz = setTimeout(() => {
   if (svg.clientWidth !== W || svg.clientHeight !== H) build(false);
 }, 120); }).observe(svg);
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
+// Web fonts load asynchronously, so re-measure labels whenever a font batch finishes.
+let fontRelayout = 0;
+const relayoutForFonts = () => { clearTimeout(fontRelayout); fontRelayout = setTimeout(() => {
   const keep = {hovered, pinned}; build(true); hovered = keep.hovered; pinned = keep.pinned; card.dataset.key = ''; refresh();
-});
+}, 60); };
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(relayoutForFonts);
+  document.fonts.addEventListener?.('loadingdone', relayoutForFonts);
+}
 })();
 </script>
 
