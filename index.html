@@ -228,6 +228,33 @@ html[lang="en"] .brand h1{font-family:var(--en);font-weight:700;letter-spacing:.
 .sights{margin:0;padding:0;list-style:none;display:grid;gap:5px}
 .sights li{display:flex;gap:8px;align-items:baseline;font-size:14px;line-height:1.5}
 .sights li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ic);flex:none;transform:translateY(-2px)}
+.photo-section{margin:14px 0 0}
+.photo-section>h3,.photo-subhead h3{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.photo-hero{margin:0 0 12px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel-solid)}
+.photo-stage{position:relative;display:grid;place-items:center;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(135deg,var(--chip),var(--sea-hi));}
+.photo-hero .photo-stage{aspect-ratio:16/8.5}
+.photo-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s ease}
+.photo-stage.loaded img{opacity:1}
+.photo-placeholder{position:relative;z-index:1;display:grid;justify-items:center;gap:7px;padding:12px;color:var(--ink-3);font-size:11.5px;text-align:center;line-height:1.45;transition:opacity .2s}
+.photo-placeholder svg{width:30px;height:30px;--ics:color-mix(in srgb,var(--ic) 20%,#fffaf2)}
+.photo-stage.loaded .photo-placeholder{opacity:0}
+.photo-stage.no-photo .photo-placeholder{opacity:1}
+.photo-stage.no-photo .photo-shimmer{display:none}
+.photo-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.32) 48%,transparent 66%);transform:translateX(-100%);animation:photoShimmer 1.5s ease-in-out infinite}
+@keyframes photoShimmer{to{transform:translateX(100%)}}
+.photo-caption{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px}
+.photo-caption strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700}
+.photo-credit{display:inline-block;max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-3);font-size:10px;text-decoration:none;text-align:right}
+.photo-credit:hover{color:var(--accent);text-decoration:underline}
+.photo-subhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 8px}
+.photo-subhead h3{margin:0}
+.photo-count{font-size:10.5px;color:var(--ink-3)}
+.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.photo-tile{min-width:0;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:var(--panel-solid)}
+.photo-tile .photo-caption{display:block;padding:8px 9px 9px}
+.photo-tile .photo-caption strong{display:block;white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;max-height:2.8em;line-height:1.4;overflow:hidden;font-size:12px}
+.photo-tile .photo-credit{display:block;max-width:100%;margin-top:4px;overflow:visible;white-space:normal;text-overflow:clip;overflow-wrap:anywhere;line-height:1.35;text-align:left;font-size:9.5px}
+.photo-tile .photo-placeholder svg{width:24px;height:24px}
 .range{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--hl-fill);border:1px solid var(--hl-stroke)}
 .range.ap{background:var(--ap-fill);border:1px dashed var(--ap-stroke)}
 .range .sw{margin-top:3px}
@@ -420,7 +447,7 @@ GBR: [
   sights:['爱丁堡城堡','皇家一英里','亚瑟王座','荷里路德宫'],range:{u:['Edinburgh']},rn:'爱丁堡市议会区'},
  {id:'stonehenge',zh:'巨石阵',en:'Stonehenge',ll:[-1.8262,51.1789],t:1,icon:'megalith',tags:['英格兰西南','史前遗址'],
   intro:'索尔兹伯里平原上约 5000 年前的史前石圈，巨石排列与夏至日出方向对齐，建造目的至今仍是谜。',
-  sights:['巨石阵石圈与游客中心','埃夫伯里石圈','索尔兹伯里大教堂'],range:{u:['Wiltshire']},rn:'威尔特郡（巨石阵所在郡）'},
+  sights:['巨石阵','埃夫伯里石圈','索尔兹伯里大教堂'],range:{u:['Wiltshire']},rn:'威尔特郡（巨石阵所在郡）'},
  {id:'lakedistrict',zh:'湖区',en:'Lake District',ll:[-3.03,54.45],t:1,icon:'lake',tags:['英格兰西北','国家公园'],
   intro:'英格兰最高峰斯科费尔峰与温德米尔湖所在的冰川湖山地，华兹华斯的诗与彼得兔作者波特的田园都诞生于此。',
   sights:['温德米尔湖游船','格拉斯米尔与鸽舍','凯西克与德文特湖','山顶农场（波特故居）'],
@@ -700,7 +727,7 @@ const TABCFG = {
 const EN = {
  london:{tags:['England','Capital · Royal'],intro:'The UK capital, a two-thousand-year-old city on the Thames. Royal pageantry, world-class museums and West End theatre share one skyline, and most national museums are free — the natural starting point for any trip.',sights:['Palace of Westminster & Big Ben','British Museum','Tower of London & Tower Bridge',"Buckingham Palace & St James's Park"],rn:'Greater London (32 boroughs + City of London)'},
  edinburgh:{tags:['Scotland','Old Town · Festivals'],intro:"Scotland's capital, where a castle on an extinct volcano looks over the medieval Old Town and Georgian New Town, both UNESCO-listed. Its August Fringe is the world's largest arts festival.",sights:['Edinburgh Castle','Royal Mile',"Arthur's Seat",'Palace of Holyroodhouse'],rn:'City of Edinburgh council area'},
- stonehenge:{tags:['South West England','Prehistoric site'],intro:'A 5,000-year-old stone circle on Salisbury Plain, aligned with the midsummer sunrise; why it was built is still a mystery.',sights:['Stonehenge & visitor centre','Avebury stone circle','Salisbury Cathedral'],rn:'Wiltshire (the county containing Stonehenge)'},
+ stonehenge:{tags:['South West England','Prehistoric site'],intro:'A 5,000-year-old stone circle on Salisbury Plain, aligned with the midsummer sunrise; why it was built is still a mystery.',sights:['Stonehenge','Avebury stone circle','Salisbury Cathedral'],rn:'Wiltshire (the county containing Stonehenge)'},
  lakedistrict:{tags:['North West England','National park'],intro:"Glacial lakes and fells around Scafell Pike, England's highest peak, and Windermere — the landscape of Wordsworth's poetry and Beatrix Potter's farms.",sights:['Windermere lake cruise','Grasmere & Dove Cottage','Keswick & Derwentwater',"Hill Top (Beatrix Potter's house)"],rn:'Lake District National Park (approximate boundary)',wiki:'Lake District National Park'},
  birmingham:{tags:['English Midlands','Industrial heritage · Food'],intro:"Britain's second city and the engine of the Industrial Revolution, with more miles of canal than Venice. Today it is known for diverse food, shopping and museums, and is a hub for the Cotswolds and Stratford.",sights:['Birmingham Museum & Art Gallery','Canals & the Jewellery Quarter','Cadbury World','Bullring & the Selfridges building'],rn:'Birmingham metropolitan borough'},
  nottingham:{tags:['East Midlands','Robin Hood · Caves'],intro:'A lively East Midlands city tied to the Robin Hood legend, with a medieval castle above a network of sandstone caves and a rich lace-making past.',sights:['Nottingham Castle & Robin Hood statue','City of Caves','Wollaton Hall & Deer Park','Old Market Square'],rn:'City of Nottingham'},
@@ -789,7 +816,7 @@ const I18N = {
   note:['缩小时只显示代表性目的地，放大后逐级出现更多地点、河流、湖泊、地形与地区名称。','Zoomed out, only headline destinations appear; zoom in to reveal more places, rivers, lakes, terrain and region names.'],
   zoomIn:['放大','Zoom in'], zoomOut:['缩小','Zoom out'], home:['回到全图','Reset view'], theme:['切换浅色 / 深色主题','Toggle light / dark theme'], close:['关闭详情','Close details'],
   lvl:['缩放层级','Zoom'], lv1:['概览 · 精选地标','Overview · highlights'], lv2:['城市 · 河流湖泊','Cities · rivers & lakes'], lv3:['细节 · 周边地点','Detail · nearby places'],
-  sights:['代表景点','Highlights'], range:['高亮范围','Highlighted area'], near:['附近地点','Nearby'],
+  sights:['代表景点','Highlights'], photos:['目的地与景点照片','Destination & attraction photos'], photoLoading:['正在寻找合适的照片…','Finding a suitable photo…'], photoUnavailable:['暂时找不到照片','Photo temporarily unavailable'], photoCount:['张景点照片','attraction photos'], range:['高亮范围','Highlighted area'], near:['附近地点','Nearby'],
   rangeReal:['实线为真实行政区边界（Natural Earth 数据）','Solid line: real administrative boundary (Natural Earth data)'],
   rangeApprox:['虚线为周边示意范围，并非精确行政边界','Dashed line: approximate area, not an exact boundary'],
   pinned:['已固定 · 再次点击该地点或 × 取消','Pinned · click the place again or × to release'],
@@ -1157,8 +1184,75 @@ function refresh(){
   schedule();
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const photoCache = new Map();
+let photoTimer = 0, photoToken = 0, photoObserver = null;
+const photoPlain = value => {
+  if (!value) return '';
+  const doc = new DOMParser().parseFromString(String(value), 'text/html');
+  return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+};
+function requestCommonsPhoto(query){
+  const key = query.toLocaleLowerCase().trim();
+  if (photoCache.has(key)) return photoCache.get(key);
+  const params = new URLSearchParams({action:'query',generator:'search',gsrsearch:`filetype:bitmap ${query}`,gsrnamespace:'6',gsrlimit:'1',prop:'imageinfo',iiprop:'url|extmetadata',iiurlwidth:'760',format:'json',origin:'*'});
+  const task = fetch(`https://commons.wikimedia.org/w/api.php?${params}`, {headers:{Accept:'application/json'}})
+    .then(response => { if (!response.ok) throw new Error(`Commons returned ${response.status}`); return response.json(); })
+    .then(data => {
+      const page = Object.values(data.query?.pages || {})[0], info = page?.imageinfo?.[0];
+      if (!info || !(info.thumburl || info.url)) return null;
+      const meta = info.extmetadata || {}, artist = photoPlain(meta.Artist?.value || meta.Credit?.value).slice(0,90);
+      return {url:info.thumburl || info.url, source:info.descriptionurl || info.url, artist, license:photoPlain(meta.LicenseShortName?.value), licenseUrl:meta.LicenseUrl?.value || ''};
+    }).catch(() => null);
+  photoCache.set(key, task);
+  return task;
+}
+async function findCommonsPhoto(title, context){
+  const focused = await requestCommonsPhoto(`${title} ${context}`);
+  return focused || requestCommonsPhoto(title);
+}
+function loadPhotoFigure(item, token, key){
+  const query = item.dataset.photoQuery, context = item.dataset.photoContext || '';
+  findCommonsPhoto(query, context).then(photo => {
+    if (!item.isConnected || token !== photoToken || card.dataset.key !== key) return;
+    const stage = item.querySelector('.photo-stage'), credit = item.querySelector('.photo-credit'), img = item.querySelector('img');
+    const unavailable = () => { stage.classList.add('no-photo'); stage.setAttribute('aria-busy','false'); const message = stage.querySelector('.photo-message'); if (message) message.innerHTML = L('photoUnavailable'); };
+    if (!photo) { unavailable(); return; }
+    img.onload = () => { stage.classList.add('loaded'); stage.setAttribute('aria-busy','false'); };
+    img.onerror = unavailable;
+    img.src = photo.url;
+    if (!photo.url) { unavailable(); return; }
+    credit.href = photo.source || '#';
+    credit.textContent = ['Wikimedia Commons', photo.artist, photo.license].filter(Boolean).join(' · ');
+    credit.title = credit.textContent;
+    credit.hidden = false;
+  });
+}
+function requestCardPhotos(p, key){
+  clearTimeout(photoTimer);
+  photoObserver?.disconnect();
+  const token = ++photoToken;
+  photoTimer = setTimeout(() => {
+    if (token !== photoToken || card.hidden || card.dataset.key !== key) return;
+    const items = [...card.querySelectorAll('.photo-item')];
+    if (!('IntersectionObserver' in window)) { items.forEach(item => loadPhotoFigure(item, token, key)); return; }
+    photoObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        photoObserver.unobserve(entry.target);
+        loadPhotoFigure(entry.target, token, key);
+      });
+    }, {root:card,rootMargin:'100px 0px'});
+    items.forEach(item => photoObserver.observe(item));
+  }, 220);
+}
+function photoFigure(query, context, title, icon, hero=false, altText=title){
+  return `<figure class="photo-item ${hero ? 'photo-hero' : 'photo-tile'}" data-photo-query="${esc(query)}" data-photo-context="${esc(context)}">
+    <div class="photo-stage" aria-busy="true"><div class="photo-shimmer"></div><div class="photo-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-${icon}"/></svg><span class="photo-message">${L('photoLoading')}</span></div><img alt="${esc(altText)}" loading="lazy" decoding="async"></div>
+    <figcaption class="photo-caption"><strong>${title}</strong><a class="photo-credit" target="_blank" rel="noopener noreferrer" hidden></a></figcaption>
+  </figure>`;
+}
 function renderCard(p){
-  if (!p) { card.hidden = true; card.dataset.key = ''; updateSheetControls(); return; }
+  if (!p) { clearTimeout(photoTimer); photoObserver?.disconnect(); photoToken++; card.hidden = true; card.dataset.key = ''; updateSheetControls(); return; }
   const isPinned = pinned === p.id;
   const key = `${p.id}|${isPinned}|${LANG}`;
   if (card.dataset.key === key && !card.hidden) return;
@@ -1168,6 +1262,11 @@ function renderCard(p){
     .map(q => ({q, d: d3.geoDistance(p.ll, q.ll) * 6371}))
     .sort((a,b) => a.d - b.d).slice(0, 4);
   const arrow = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 2h6v6M10 2 3 9"/></svg>';
+  const country = p.c === 'GBR' ? 'United Kingdom' : 'France';
+  const scenicSuffix = {lake:'landscape',mountain:'landscape',coast:'coastline',garden:'countryside',lavender:'lavender fields',vineyard:'wine region',megalith:'stone circle',palace:'palace'}[p.icon];
+  const coverQuery = `${p.en} ${scenicSuffix || 'skyline'}`;
+  const cityPhoto = photoFigure(coverQuery, country, pair(p.zh, p.en, 'se'), p.icon, true, `${p.zh}, ${p.en}`);
+  const attractionPhotos = p.sights.map((s,i) => photoFigure(E.sights[i], p.en, pair(s, E.sights[i], 'se'), p.icon, false, en ? E.sights[i] : `${s} — ${E.sights[i]}`)).join('');
   const wikiZh = `<a class="ext" href="https://zh.wikipedia.org/w/index.php?search=${encodeURIComponent(p.wiki || p.zh)}" target="_blank" rel="noopener">在维基百科了解「${esc(p.zh)}」${arrow}</a>`;
   const wikiEn = `<a class="ext" href="https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(E.wiki || p.en)}" target="_blank" rel="noopener">Read about ${esc(p.en)} on Wikipedia ${arrow}</a>`;
   card.style.setProperty('--ic', IC[p.icon][0]);
@@ -1180,7 +1279,11 @@ function renderCard(p){
     <div class="chips">${p.tags.map((t,i) => `<span class="chip">${pair(t, E.tags[i], 'bi-en-i')}</span>`).join('')}<span class="chip ty">${typeName(p.icon)}</span></div>
     ${en ? '' : `<p class="intro">${esc(p.intro)}</p>`}
     ${en ? `<p class="intro" lang="en">${esc(E.intro)}</p>` : bi ? `<p class="intro-en" lang="en">${esc(E.intro)}</p>` : ''}
-    <div class="c-sec"><h3>${L('sights')}</h3><ul class="sights">${p.sights.map((s,i) => `<li><span>${pair(s, E.sights[i], 'se')}</span></li>`).join('')}</ul></div>
+    <section class="photo-section" aria-label="${Lt('photos')}"><h3>${L('photos')}</h3>
+      ${cityPhoto}
+      <div class="photo-subhead"><h3>${L('sights')}</h3><span class="photo-count">${p.sights.length} ${L('photoCount')}</span></div>
+      <div class="photo-grid">${attractionPhotos}</div>
+    </section>
     <div class="c-sec"><h3>${L('range')}</h3>
       <div class="range ${ap ? 'ap' : ''}"><span class="sw ${ap ? 'ap' : ''}"></span>
         <div><b>${pair(p.rn, E.rn, 'se')}</b><em>${L(ap ? 'rangeApprox' : 'rangeReal')}</em></div>
@@ -1192,6 +1295,7 @@ function renderCard(p){
   card.dataset.key = key; card.dataset.pinned = String(isPinned);
   card.hidden = false;
   updateSheetControls();
+  requestCardPhotos(p, key);
 }
 
 /* ======================= tabs, theme, hint ======================= */
