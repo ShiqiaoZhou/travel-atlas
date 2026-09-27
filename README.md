@@ -9,6 +9,7 @@ An interactive bilingual travel atlas for exploring places across Great Britain 
 - A softly illustrated, 2.5D-style map with rivers, terrain, coastlines, and administrative boundaries.
 - Zoom-dependent detail: major destinations lead at overview scale; more places and labels appear as you zoom in. City markers and names grow subtly with zoom, up to 12%.
 - Each place has its own icon, an interactive highlighted area, and a bilingual mini-guide.
+- Destination cards include one cover photo and one photo for each featured attraction. Photos load as needed and link to their Wikimedia Commons source with available author and license details.
 - Searchable-feeling exploration through hover, click-to-pin, nearby-place links, and keyboard-accessible markers.
 - Chinese, English, and bilingual display, with responsive controls for smaller screens.
 
@@ -29,7 +30,13 @@ Vanilla HTML, CSS, and JavaScript, with D3.js for the interactive map and TopoJS
 
 ## Run locally
 
-Open `index.html` in a modern browser. An internet connection is used to load optional Google Fonts; system font fallbacks are included.
+Run a local static server from the project folder, then open `http://127.0.0.1:8767/`:
+
+```sh
+python3 -m http.server 8767
+```
+
+No build step is required. An internet connection is used for Google Fonts and on-demand destination photos; system font fallbacks are included.
 
 ## Project notes
 
@@ -40,3 +47,4 @@ This is an AI-assisted creative-coding project. I shaped the map concept and int
 - Geographic boundaries and map shapes are based on Natural Earth data.
 - D3.js v7.9.0 and TopoJSON v3.0.2; copyright notices are retained in the source file.
 - Chinese and English typefaces are served by Google Fonts when available.
+- Destination and attraction photographs are fetched from Wikimedia Commons with source, author, and available license details shown in each card.
