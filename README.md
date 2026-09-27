@@ -7,10 +7,21 @@ An interactive bilingual travel atlas for exploring places across Great Britain 
 ## Explore
 
 - A softly illustrated, 2.5D-style map with rivers, terrain, coastlines, and administrative boundaries.
-- Zoom-dependent detail: major destinations lead at overview scale; more places and labels appear as you zoom in.
+- Zoom-dependent detail: major destinations lead at overview scale; more places and labels appear as you zoom in. City markers and names grow subtly with zoom, up to 12%.
 - Each place has its own icon, an interactive highlighted area, and a bilingual mini-guide.
 - Searchable-feeling exploration through hover, click-to-pin, nearby-place links, and keyboard-accessible markers.
 - Chinese, English, and bilingual display, with responsive controls for smaller screens.
+
+## New UK city guides
+
+The latest update adds six destinations, bringing the UK map to 35 places:
+
+- **Bristol** — Clifton Suspension Bridge, the Harbourside, and SS Great Britain.
+- **Durham** — the cathedral, castle, and River Wear loop.
+- **Norwich** — the cathedral, Norman castle, and Elm Hill.
+- **Chester** — the Roman walls, Tudor Rows, and cathedral.
+- **Canterbury** — the cathedral, St Augustine’s Abbey, and River Stour.
+- **Salisbury** — its soaring cathedral, Magna Carta, and Old Sarum.
 
 ## Built with
 
