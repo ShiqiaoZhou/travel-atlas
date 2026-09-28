@@ -17,14 +17,14 @@
 </style>
 </head>
 <body>
-<iframe id="f" src="./index.html"></iframe>
+<iframe id="f"></iframe>
 <div id="panel"><h1>地图性能测试</h1><div id="status">准备中… 测试期间请不要移动鼠标，也不要切换窗口。</div><div id="result"></div></div>
 <script>
 // Temporary diagnostic page: drives the real map (in the iframe) with synthetic wheel/drag
 // events and reports frames per second with individual rendering features switched off.
 (async () => {
   const $ = s => document.querySelector(s), status = $('#status');
-  const f = $('#f');
+  const f = $('#f'); f.src = './index.html?nocache=' + Date.now();
   await new Promise(r => { const ok = () => f.contentDocument?.querySelector('#map') && f.contentDocument.readyState === 'complete';
     if (ok()) r(); else f.addEventListener('load', () => ok() && r()); });
   const w = f.contentWindow, d = w.document, sleep = ms => new Promise(r => setTimeout(r, ms));
