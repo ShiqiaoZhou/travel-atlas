@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地图性能测试</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;background:#c9dfe8}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
+  #panel{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;background:#fffdf8;color:#1f2d36;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.25);padding:16px 20px;max-width:min(560px,calc(100% - 32px));font-size:14px;line-height:1.5}
+  #panel h1{font-size:16px;margin:0 0 6px}
+  table{border-collapse:collapse;margin-top:8px;width:100%}
+  td,th{padding:4px 10px;border-bottom:1px solid #e2dac8;text-align:left;font-variant-numeric:tabular-nums}
+  th:not(:first-child),td:not(:first-child){text-align:right}
+  pre{white-space:pre-wrap;word-break:break-all;font-size:11px;background:#f3eee2;padding:8px;border-radius:8px;margin:10px 0 0}
+  button{margin-top:10px;font:inherit;padding:6px 14px;border-radius:8px;border:0;background:#1f6f8b;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<iframe id="f" src="./index.html"></iframe>
+<div id="panel"><h1>地图性能测试</h1><div id="status">准备中… 测试期间请不要移动鼠标，也不要切换窗口。</div><div id="result"></div></div>
+<script>
+// Temporary diagnostic page: drives the real map (in the iframe) with synthetic wheel/drag
+// events and reports frames per second with individual rendering features switched off.
+(async () => {
+  const $ = s => document.querySelector(s), status = $('#status');
+  const f = $('#f');
+  await new Promise(r => { const ok = () => f.contentDocument?.querySelector('#map') && f.contentDocument.readyState === 'complete';
+    if (ok()) r(); else f.addEventListener('load', () => ok() && r()); });
+  const w = f.contentWindow, d = w.document, sleep = ms => new Promise(r => setTimeout(r, ms));
+  await sleep(1500);
+  const svg = d.querySelector('#map'), card = d.querySelector('#card');
+  const frame = () => new Promise(r => w.requestAnimationFrame(r));
+  const style = d.head.appendChild(d.createElement('style'));
+  const cx = w.innerWidth * .45, cy = w.innerHeight * .5;
+  async function measure(n, step) {
+    const t = []; let last = await frame();
+    for (let i = 0; i < n; i++) { step(i); const now = await frame(); t.push(now - last); last = now; }
+    return Math.round(1000 * t.length / t.reduce((a, b) => a + b, 0));
+  }
+  async function run(css, cardOpen) {
+    style.textContent = css;
+    d.querySelector('#zhome').click(); await sleep(700);
+    if (!cardOpen && !card.hidden) card.querySelector('.c-close').click();
+    if (cardOpen && card.hidden) [...d.querySelectorAll('.pl')].find(e => e.querySelector('.lab text')?.textContent === '伦敦')
+      ?.dispatchEvent(new w.KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+    await sleep(500);
+    const zoom = await measure(40, () => svg.dispatchEvent(new w.WheelEvent('wheel', {deltaY: -45, clientX: cx, clientY: cy, bubbles: true, cancelable: true})));
+    await sleep(300);
+    svg.dispatchEvent(new w.MouseEvent('mousedown', {clientX: cx, clientY: cy, button: 0, bubbles: true, view: w}));
+    const pan = await measure(80, i => w.dispatchEvent(new w.MouseEvent('mousemove', {clientX: cx - (i % 40) * 8, clientY: cy - (i % 40) * 4, bubbles: true, view: w})));
+    w.dispatchEvent(new w.MouseEvent('mouseup', {bubbles: true, view: w}));
+    return [zoom, pan];
+  }
+  const variants = [
+    ['当前版本', '', false],
+    ['当前版本 + 右侧信息卡打开', '', true],
+    ['去掉毛玻璃模糊', '.glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}', false],
+    ['去掉标记阴影', '.pl .pin{filter:none!important}', false],
+    ['去掉立体侧边和光晕', '.shadow,.side1,.side2,.side3,.halo-u{display:none!important}', false],
+    ['去掉线条不缩放效果', '#map path{vector-effect:none!important}', false],
+    ['去掉海洋/地区名标签', '#gSec{display:none!important}', false],
+    ['去掉经纬网格', '#grat{display:none!important}', false],
+  ];
+  const rows = [];
+  for (const [i, [name, css, open]] of variants.entries()) {
+    status.textContent = `测试中 ${i + 1}/${variants.length}：${name}（请勿移动鼠标）`;
+    rows.push([name, ...(await run(css, open))]);
+  }
+  style.remove(); d.querySelector('#zhome').click();
+  const info = {size: w.innerWidth + 'x' + w.innerHeight, dpr: w.devicePixelRatio, ua: (navigator.userAgent.match(/(Chrome|Firefox|Version)\/[\d.]+/) || [''])[0], rows};
+  status.textContent = '测试完成。请截图或点下面的按钮复制结果发给 Claude。';
+  $('#result').innerHTML = `<table><tr><th>情况</th><th>放大 fps</th><th>拖动 fps</th></tr>${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table>
+    <pre id="raw"></pre><button id="copy">复制结果</button>`;
+  $('#raw').textContent = JSON.stringify(info);
+  $('#copy').onclick = async () => {
+    try { await navigator.clipboard.writeText($('#raw').textContent); $('#copy').textContent = '已复制'; }
+    catch { getSelection().selectAllChildren($('#raw')); $('#copy').textContent = '已选中文字，按 Cmd+C 复制'; }
+  };
+})();
+</script>
+</body>
+</html>
