@@ -1122,9 +1122,11 @@ const MESH = {
 };
 const RIVERS = topojson.feature(TOPO, O.rivers).features;
 const LAKES = topojson.feature(TOPO, O.lakes).features;
-// Keep the graticule near Western Europe: a whole-globe grid projects to enormous
-// dashed paths under the conic projection, which freezes Safari/WebKit (all iPhone browsers).
-const GRAT = d3.geoGraticule().extent([[-40, 25], [45, 75]]).step([2,2])();
+// The graticule is dashed in screen space, so its on-screen length drives the per-frame cost.
+// Only the part around the current view is drawn (never beyond Western Europe: a whole-globe
+// grid under the conic projection froze Safari, and a zoomed full grid made Chrome drag at ~20 fps).
+const GRAT_MAX = [[-40, 25], [45, 75]], GRAT_STEP = 2;
+let gratBox = null;
 
 function ringPoly(pts){
   const ring = pts.concat([pts[0]]);
@@ -1210,7 +1212,29 @@ S.on('pointerup.bg', e => {
 function applyT(){
   for (const g of LAYERS) g.setAttribute('transform', `translate(${T.x},${T.y + (+g.dataset.dy||0)}) scale(${T.k})`);
   peaksPat.setAttribute('patternTransform', `scale(${1/T.k})`);
+  updateGrat();
   schedule();
+}
+function updateGrat(){
+  if (!proj) return;
+  // Visible area in projected coordinates; regenerate only when it leaves the drawn box.
+  const [x0, y0] = T.invert([0, 0]), [x1, y1] = T.invert([W, H]);
+  if (gratBox && x0 >= gratBox[0] && y0 >= gratBox[1] && x1 <= gratBox[2] && y1 <= gratBox[3]
+      && gratBox[2] - gratBox[0] < (x1 - x0) * 3) return;
+  const px = (x1 - x0) * .5, py = (y1 - y0) * .5;
+  gratBox = [x0 - px, y0 - py, x1 + px, y1 + py];
+  let lo0 = Infinity, la0 = Infinity, lo1 = -Infinity, la1 = -Infinity;
+  for (let i = 0; i <= 4; i++) for (let j = 0; j <= 4; j++) {
+    const ll = proj.invert([gratBox[0] + (gratBox[2] - gratBox[0]) * i / 4, gratBox[1] + (gratBox[3] - gratBox[1]) * j / 4]);
+    if (!ll || !isFinite(ll[0]) || !isFinite(ll[1])) continue;
+    lo0 = Math.min(lo0, ll[0]); lo1 = Math.max(lo1, ll[0]); la0 = Math.min(la0, ll[1]); la1 = Math.max(la1, ll[1]);
+  }
+  const snap = (v, f) => f(v / GRAT_STEP) * GRAT_STEP, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const [[mlo0, mla0], [mlo1, mla1]] = GRAT_MAX;
+  const e0 = [clamp(snap(lo0, Math.floor), mlo0, mlo1), clamp(snap(la0, Math.floor), mla0, mla1)];
+  const e1 = [clamp(snap(lo1, Math.ceil), mlo0, mlo1), clamp(snap(la1, Math.ceil), mla0, mla1)];
+  const d = e1[0] > e0[0] && e1[1] > e0[1] ? path(d3.geoGraticule().extent([e0, e1]).step([GRAT_STEP, GRAT_STEP])()) : '';
+  $('#grat').setAttribute('d', d || '');
 }
 function schedule(){ if (!raf) raf = requestAnimationFrame(layout); }
 
@@ -1230,7 +1254,7 @@ function buildGeo(){
   const other = tab === 'GBR' ? 'FRA' : 'GBR';
   $('#focusD').setAttribute('d', path(landBy[tab]) || '');
   $('#otherD').setAttribute('d', (path(landBy[other]) || '') + (path(nbLand) || ''));
-  $('#grat').setAttribute('d', path(GRAT) || '');
+  gratBox = null; updateGrat();
   $('#bMajor').setAttribute('d', path(MESH[tab].major) || '');
   $('#bMinor').setAttribute('d', path(MESH[tab].minor) || '');
   const line = d3.line().curve(d3.curveCatmullRomClosed.alpha(.5));
