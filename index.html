@@ -110,8 +110,9 @@ button{font-family:inherit}
 .hlg.approx .hl-glow{stroke:var(--ap-stroke);opacity:.18}
 
 /* ---------- secondary labels ---------- */
-.sl{pointer-events:none;transition:opacity .25s}
-.sl.off{opacity:0}
+/* Hidden labels/markers switch to visibility:hidden once faded, so the browser stops painting them on every pan/zoom frame. */
+.sl{pointer-events:none;transition:opacity .25s,visibility 0s}
+.sl.off{opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
 .sl text{paint-order:stroke;stroke:var(--halo);stroke-width:3px;stroke-linejoin:round;text-anchor:middle;dominant-baseline:central}
 .sl.nation text,.sl.nb text,.sl.region text{fill:var(--ink-3)}
 .sl.sea text{fill:var(--sea-ink);stroke:none}
@@ -120,8 +121,8 @@ button{font-family:inherit}
 .sl.river text,.sl.lakel text{fill:var(--river-ink)}
 
 /* ---------- place markers ---------- */
-.pl{cursor:pointer;transition:opacity .2s;outline:none}
-.pl.off{opacity:0;pointer-events:none}
+.pl{cursor:pointer;transition:opacity .2s,visibility 0s;outline:none}
+.pl.off{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility 0s .2s}
 .pl{--ics:color-mix(in srgb,var(--ic) 20%,#fffaf2)}
 .pl .gsh{fill:rgba(18,30,40,.28)}
 .pl .tail{fill:var(--ic)}
@@ -129,8 +130,8 @@ button{font-family:inherit}
 .pl.t1 .badge{stroke-width:2.6}
 .pl .ring{fill:none;stroke:var(--hl);stroke-width:3.5;opacity:0;transition:opacity .2s}
 .pl .pin{transition:transform .18s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 2px 2.5px rgba(20,35,45,.28))}
-.pl .lab{transition:opacity .2s}
-.pl.nolab .lab{opacity:0;pointer-events:none}
+.pl .lab{transition:opacity .2s,visibility 0s}
+.pl.nolab .lab{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility 0s .2s}
 .pl .lab rect{fill:var(--hl);opacity:0;stroke:var(--hl-stroke);stroke-width:1}
 .pl text{font-family:var(--sans);fill:var(--ink);paint-order:stroke;stroke:var(--halo);stroke-width:3.8px;stroke-linejoin:round;dominant-baseline:central;text-anchor:middle}
 .pl.t3:not(.active):not(:hover) .l1,.pl .l2{fill:var(--ink-2)}
