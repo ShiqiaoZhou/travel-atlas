@@ -667,7 +667,22 @@ GBR: [
   sights:['卡那封城堡','老城城墙','威尔士高地铁路','梅奈海峡'],range:{u:['Gwynedd']},rn:'圭内斯郡'},
  {id:'derry',zh:'德里',en:'Derry',ll:[-7.3086,54.9966],t:3,icon:'castle',tags:['北爱尔兰','城墙古城'],
   intro:'爱尔兰岛上唯一城墙完整的城市，可以沿着 17 世纪城墙绕城一周，和平桥与博格赛德壁画讲述着北爱的近代史。',
-  sights:['德里城墙','和平桥','市政厅','博格赛德壁画'],range:{u:['Derry']},rn:'德里（旧行政区）',wiki:'德里'}
+  sights:['德里城墙','和平桥','市政厅','博格赛德壁画'],range:{u:['Derry']},rn:'德里（旧行政区）',wiki:'德里'},
+ {id:'llandudno',zh:'兰迪德诺',en:'Llandudno',ll:[-3.8275,53.3245],t:3,icon:'coast',tags:['威尔士','维多利亚海滨'],
+  intro:'北威尔士最受英国人喜爱的维多利亚式海滨小镇，弧形海湾两端是大奥姆和小奥姆两座石灰岩岬角，长码头、登山电车和缆车都保留着老派度假风情。',
+  sights:['大奥姆登山电车','兰迪德诺码头','大奥姆环岬公路','大奥姆青铜时代铜矿'],range:{u:['Conwy']},rn:'康威郡自治市',wiki:'蘭迪德諾'},
+ {id:'scarborough',zh:'斯卡伯勒',en:'Scarborough',ll:[-0.399,54.283],t:3,icon:'coast',tags:['约克郡','经典海滨'],
+  intro:'英国最早的海滨度假地之一，悬崖上的古堡把海岸分成南北两片海湾，游乐街、炸鱼薯条和维多利亚时代的悬崖缆车是几代英国人的夏日回忆。',
+  sights:['斯卡伯勒城堡','南湾','皮斯霍姆公园','悬崖缆车'],range:{u:['North Yorkshire']},rn:'北约克郡'},
+ {id:'southwold',zh:'索思沃尔德',en:'Southwold',ll:[1.681,52.327],t:3,icon:'lighthouse',tags:['东英格兰','海滨小镇'],
+  intro:'萨福克海岸优雅安静的小镇，白色灯塔立在民居之间，彩色海滩小屋沿着长堤排开，镇上的酿酒厂和充满奇思妙想的码头深受伦敦人喜爱。',
+  sights:['索思沃尔德灯塔','彩色海滩小屋','索思沃尔德码头','阿德南姆斯酿酒厂'],range:{u:['Suffolk']},rn:'萨福克郡'},
+ {id:'salcombe',zh:'索尔科姆',en:'Salcombe',ll:[-3.779,50.238],t:3,icon:'coast',tags:['德文','帆船 · 海湾'],
+  intro:'德文郡南岸的帆船小镇，碧绿的河口两岸散落着金色沙滩，夏天满是小船和在码头钓螃蟹的孩子，是英国人心中最有“度假感”的地方之一。',
+  sights:['索尔科姆河口','北沙湾','东波特勒穆斯渡轮','博尔特角海岸步道'],range:{u:['Devon']},rn:'德文郡',wiki:'索爾科姆'},
+ {id:'pitlochry',zh:'皮特洛赫里',en:'Pitlochry',ll:[-3.735,56.704],t:3,icon:'mountain',tags:['苏格兰高地','高地小镇 · 威士忌'],
+  intro:'苏格兰人周末最爱的高地小镇，维多利亚女王时代起就是度假胜地，森林步道、鲑鱼阶梯、女王观景台和小酒厂都在附近，秋天层林尽染。',
+  sights:['皮特洛赫里鲑鱼阶梯','女王观景台','布莱尔城堡','埃德拉多尔酒厂'],range:{u:['Perthshire and Kinross']},rn:'珀斯-金罗斯'}
 ],
 FRA: [
  {id:'paris',zh:'巴黎',en:'Paris',ll:[2.3522,48.8566],t:1,icon:'eiffel',tags:['法兰西岛','艺术之都'],
@@ -1067,7 +1082,12 @@ const EN = {
  lepuy:{tags:['Auvergne','Volcanic spires · Pilgrim start'],intro:'Chapels and a giant Virgin statue crown volcanic pinnacles in a surreal townscape; it is a classic starting point of the Way of St James, known too for green lentils and lace.',sights:["Saint-Michel d'Aiguilhe",'Le Puy Cathedral','Notre-Dame de France, Le Puy','Via Podiensis'],rn:'Haute-Loire',wiki:'Le Puy-en-Velay'},
  collioure:{tags:['Occitanie','Mediterranean painters’ town'],intro:'A small cove where the Pyrenees meet the Mediterranean, with a lighthouse-like church tower on the shore; Matisse and Derain invented Fauvism here, and anchovies are the local speciality.',sights:['Notre-Dame-des-Anges, Collioure','Château royal de Collioure','Collioure harbour','Port-Vendres'],rn:'Pyrénées-Orientales'},
  cognac:{tags:['Nouvelle-Aquitaine','Home of brandy'],intro:"A small town on the Charente and the home of the world's finest brandy — its walls blackened by the 'angels' share' — with cognac house tours and river cruises.",sights:['Hennessy Cognac','Martell Cognac','Château de Cognac','Charente river Cognac'],rn:'Charente',wiki:'Cognac, France'},
- montpellier:{tags:['Occitanie','Sunny university city'],intro:"A young, sunny city with one of Europe's oldest medical schools; Place de la Comédie is its living room, and the Peyrou aqueduct and France's oldest botanical garden are a stroll away.",sights:['Place de la Comédie','Musée Fabre','Promenade du Peyrou','Jardin des plantes de Montpellier'],rn:'Hérault'}
+ montpellier:{tags:['Occitanie','Sunny university city'],intro:"A young, sunny city with one of Europe's oldest medical schools; Place de la Comédie is its living room, and the Peyrou aqueduct and France's oldest botanical garden are a stroll away.",sights:['Place de la Comédie','Musée Fabre','Promenade du Peyrou','Jardin des plantes de Montpellier'],rn:'Hérault'},
+ llandudno:{tags:['Wales','Victorian seaside'],intro:"North Wales' best-loved Victorian resort: a sweeping bay between the limestone headlands of the Great and Little Orme, with a long pier, a hill tramway and a cable car full of old-fashioned seaside charm.",sights:['Great Orme Tramway','Llandudno Pier','Marine Drive, Great Orme','Great Orme Mines'],rn:'Conwy County Borough'},
+ scarborough:{tags:['Yorkshire','Classic seaside'],intro:"One of Britain's first seaside resorts, where a clifftop castle divides the North and South Bays; arcades, fish and chips and Victorian cliff lifts are summer memories for generations of Britons.",sights:['Scarborough Castle','South Bay, Scarborough','Peasholm Park','Central Tramway, Scarborough'],rn:'North Yorkshire'},
+ southwold:{tags:['East of England','Seaside town'],intro:'A genteel Suffolk seaside town where a white lighthouse rises among the houses, colourful beach huts line the promenade, and a local brewery and a whimsical pier draw weekenders from London.',sights:['Southwold Lighthouse','Southwold beach huts','Southwold Pier','Adnams Brewery'],rn:'Suffolk'},
+ salcombe:{tags:['Devon','Sailing · Estuary'],intro:"A sailing town on Devon's south coast where golden coves line a turquoise estuary; summer means little boats and children crabbing off the quay — one of Britain's quintessential holiday spots.",sights:['Salcombe estuary','North Sands, Salcombe','East Portlemouth','Bolt Head'],rn:'Devon',wiki:'Salcombe'},
+ pitlochry:{tags:['Scottish Highlands','Highland town · Whisky'],intro:"Scotland's favourite Highland weekend town, a resort since Queen Victoria's day, with woodland walks, a salmon ladder, Queen's View and small distilleries nearby — glorious in autumn colour.",sights:['Pitlochry Dam fish ladder',"Queen's View, Loch Tummel",'Blair Castle','Edradour Distillery'],rn:'Perth and Kinross'}
 };
 const IC_EN = {bigben:'Clock tower',eiffel:'Tower',msm:'Abbey',castle:'Castle',cathedral:'Cathedral',church:'Basilica',palace:'Palace',
   college:'College',mountain:'Mountain',lake:'Lake',coast:'Coast',lighthouse:'Lighthouse',roman:'Roman site',bridge:'Bridge',vineyard:'Vineyard',

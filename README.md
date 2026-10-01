@@ -13,13 +13,14 @@ An interactive bilingual travel atlas for exploring places across Great Britain 
 - Searchable-feeling exploration through hover, click-to-pin, nearby-place links, and keyboard-accessible markers.
 - Chinese, English, and bilingual display, with touch-friendly controls and an expandable place guide on phones. Attraction photos use readable full-width rows in the mobile guide.
 
-## 64 new destinations
+## 69 new destinations
 
-The latest update adds 32 places in each country, bringing the atlas to **67 places in the UK and 60 in France**. Most appear as you zoom in, so the overview stays uncluttered.
+The latest updates add 37 UK and 32 French places, bringing the atlas to **72 places in the UK and 60 in France**. Most appear as you zoom in, so the overview stays uncluttered.
 
 - **England** — Peak District, Yorkshire Dales, Whitby, Castle Howard, Newcastle, Alnwick, Lindisfarne, Lincoln, Winchester, Portsmouth, New Forest, Isle of Wight, Rye, Warwick, Blenheim Palace, St Michael's Mount, Tintagel, Eden Project, Wells, and Ironbridge Gorge.
 - **Scotland** — Glen Coe, Oban, Stirling, St Andrews, Glenfinnan, the Cairngorms, Orkney, and Eilean Donan.
 - **Wales & Northern Ireland** — Pembrokeshire Coast, Brecon Beacons, Caernarfon, and Derry.
+- **British seaside & local favourites** — Llandudno, Scarborough, Southwold, Salcombe, and Pitlochry.
 - **Northern France** — Fontainebleau, Chantilly, Honfleur, Rouen, Amiens, Chartres, Épernay, Nancy, and Haut-Kœnigsbourg.
 - **Western France** — Nantes, the Pink Granite Coast, Quimper, La Rochelle, Cognac, Dune du Pilat, and Sarlat.
 - **Central France & Burgundy** — Dijon, Beaune, Vézelay, Puy de Dôme, Le Puy-en-Velay, and Rocamadour.
